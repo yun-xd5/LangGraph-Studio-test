@@ -51,7 +51,10 @@ ssh -L 2024:127.0.0.1:2024 <user>@<remote-host>
 
 ## 注意
 
-- Studio UI は `smith.langchain.com` 側の画面を利用するため、LangSmith ログインが必要です。
+- Studio UI は `smith.langchain.com` 側で提供されるため、表示・操作には LangSmith ログインが必要です。
+- 理由: Studio は「画面自体」を LangSmith がホストし、`baseUrl` で指定したローカル `langgraph dev` に実行リクエストを転送する構成だからです。
+- そのため、未ログイン時は実行時に LangSmith のサインアップ/ログイン画面へリダイレクトされます。
+- ログインなしで確認したい場合は、`http://127.0.0.1:2024/docs` から API を直接実行してください。
 - `.env` は機密情報を含む可能性があるため、Git 管理しません（`.gitignore` で除外）。
 - プロジェクトを別パスへ移動した場合は、`.venv` の再作成を推奨します。
 
