@@ -63,3 +63,16 @@ git remote add origin https://github.com/<YOUR_ID>/<REPO>.git
 git branch -M main
 git push -u origin main
 ```
+
+## スリープ復帰後の接続チェックリスト
+
+PCスリープ後は、SSHトンネルやVS Codeのポートフォワードが見た目だけ残り、実体は切断されることがあります。
+復帰後は次の順で確認してください。
+
+1. リモート側で `langgraph dev` が稼働しているか確認（必要なら再起動）
+2. VS Code の Forwarded Ports を一度解除して再作成
+3. `http://127.0.0.1:<local-port>/docs` が開くことを確認
+4. `https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:<local-port>` でStudioを開き直す
+5. ブラウザはハードリロード（`Ctrl+Shift+R`）を実施
+
+補足: `bind ... permission denied` が出る場合は、ローカル側ポートが他プロセスに占有されています。別ポートを使うか、占有プロセスを解放してください。
