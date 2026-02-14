@@ -113,3 +113,16 @@ SSHポートフォワーディング後、Studioで `sample` グラフの可視�
 
 これにより、Studioでは `user_input` のみ入力すれば実行できる状態になります。
 また、上部の LangSmith API Key 警告はトレース連携未設定の通知であり、ローカル実行検証には必須ではないことも確認済みです。
+
+## LANGSMITH_API_KEY 設定後の確認ログ
+
+`.env` に `LANGSMITH_API_KEY` を設定後、`langgraph dev --host 127.0.0.1 --port 2024` を再起動して動作確認を実施しました。
+
+確認結果:
+
+1. Studio 接続状態が `Connected` で安定
+2. `sample` グラフで `User Input: こんにちは` を実行
+3. 出力が `Result: Processed: こんにちは` となることを確認
+4. 入力フォーム上で `Result` は `Optional` 表示のまま（`NotRequired` 反映済み）
+
+これにより、ローカル実行・Studio表示・LangSmith連携設定まで一連の検証が完了しました。
