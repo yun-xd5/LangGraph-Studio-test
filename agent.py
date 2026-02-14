@@ -1,11 +1,11 @@
-from typing import TypedDict
+from typing import NotRequired, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 
 
 class AppState(TypedDict):
     user_input: str
-    result: str
+    result: NotRequired[str]
 
 
 def transform_text(state: AppState) -> AppState:
