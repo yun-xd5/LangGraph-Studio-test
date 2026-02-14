@@ -76,8 +76,23 @@ Studio が自動起動しないケース向けに、接続URLも記載しまし�
 - `.env` はサンプル段階では必須ではないが、運用を見据えて先に置いておくと安全
 - 依存を増やしすぎると初期検証が重くなるため、最初は1ノードで通す方が切り分けしやすい
 - Ubuntu系環境では `python3-venv` が未導入だと venv が作れない
+- プロジェクトを別パスに移動すると、既存 `.venv` の shebang / パス参照が合わず `langgraph: コマンドが見つかりません` が出る場合がある
+
 
 ## 今後やること
+## ディレクトリ移動時の対応ログ
+
+`/home/yun/dev/test/ai/LangGraph/構築テスト/01.構築テスト` から  
+`/home/yun/dev/test/ai/LangGraph/01.構築テスト` へ移動した後、仮想環境を再作成しました。
+
+1. `deactivate` で既存 venv から抜ける
+2. `rm -rf .venv`
+3. `python3 -m venv .venv`
+4. `source .venv/bin/activate`
+5. `python -m pip install -e .`
+6. `python -m pip install "langgraph-cli[inmem]"`
+
+移動後は「同じ名前のフォルダでも絶対パスが変わる」ため、venv は作り直す前提で運用するのが安全です。
 
 1. ノードを2つ以上に増やしてステップ実行を検証
 2. 条件分岐 (`add_conditional_edges`) を追加
