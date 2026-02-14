@@ -1,16 +1,17 @@
 # LangGraph Studio ローカル環境（最小構成）
 
-このリポジトリは、LangGraph をローカルで最小構成で動かすためのサンプルです。
+このリポジトリは、LangGraph + ローカルLLM（Ollama）を最小構成で動かすサンプルです。
 
 - Graph ID: `sample`
 - Node: `transform_text`
 - Input: `user_input`
-- Output: `result`（ノードで生成）
+- Output: `result`
 
 ## 前提
 
 - Python 3.11+
 - `python3-venv` がインストール済み
+- Ollama がインストール済み
 
 ## セットアップ
 
@@ -22,6 +23,15 @@ python -m pip install -e .
 python -m pip install "langgraph-cli[inmem]"
 cp .env.example .env
 ```
+
+## ローカルLLM準備（Ollama）
+
+```bash
+ollama serve
+ollama pull qwen2.5:7b
+```
+
+別モデルを使う場合は `.env` の `OLLAMA_MODEL` を変更します。
 
 ## 起動
 
@@ -35,28 +45,16 @@ langgraph dev --host 127.0.0.1 --port 2024
 ## テスト方法（手動）
 
 1. Studio で `sample` グラフを選ぶ
-2. `User Input` に文字列を入れて `Submit`
-3. `result` に `Processed: <入力文字列>` が返ることを確認
-
-## SSHリモートで使う場合
-
-ローカルPCで SSH ポートフォワードを張ります。
-
-```bash
-ssh -L 2024:127.0.0.1:2024 <user>@<remote-host>
-```
-
-その状態でリモート側で `langgraph dev --host 127.0.0.1 --port 2024` を起動し、
-ローカルPCのブラウザで Studio URL を開きます。
+2. `User Input` に質問を入力して `Submit`
+3. ローカルLLMの応答が `result` に返ることを確認
 
 ## 注意
 
 - Studio UI は `smith.langchain.com` 側で提供されるため、表示・操作には LangSmith ログインが必要です。
-- 理由: Studio は「画面自体」を LangSmith がホストし、`baseUrl` で指定したローカル `langgraph dev` に実行リクエストを転送する構成だからです。
-- そのため、未ログイン時は実行時に LangSmith のサインアップ/ログイン画面へリダイレクトされます。
+- 理由: Studio は画面自体を LangSmith がホストし、`baseUrl` で指定したローカル `langgraph dev` に実行を転送する構成だからです。
+- 未ログイン時は LangSmith のサインアップ/ログイン画面へリダイレクトされます。
 - ログインなしで確認したい場合は、`http://127.0.0.1:2024/docs` から API を直接実行してください。
 - `.env` は機密情報を含む可能性があるため、Git 管理しません（`.gitignore` で除外）。
-- プロジェクトを別パスへ移動した場合は、`.venv` の再作成を推奨します。
 
 ## GitHub公開
 
