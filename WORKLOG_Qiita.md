@@ -5,7 +5,7 @@ LangGraph を触り始めるときに、まず「ローカルで確実に動く�
 この記事は、`langgraph dev` で Studio 連携まで確認できる環境を作った作業ログです。
 
 - 作業日: 2026-02-14
-- 直近コミット: `b8610f5` (`LangGraph Studio環境を初期構築`)
+- 初回コミット: `b8610f5` (`LangGraph Studio環境を初期構築`)
 
 ## ゴール
 今回のゴールは次の3点です。
@@ -52,6 +52,19 @@ LangGraph を触り始めるときに、まず「ローカルで確実に動く�
 
 Studio が自動起動しないケース向けに、接続URLも記載しました。
 
+## Codexで構築した経緯
+
+今回の環境は、Codexと対話しながら次の順序で構築しました。
+
+1. 空ディレクトリに最小ファイル群（`agent.py`, `langgraph.json`, `pyproject.toml`, `README.md`, `.env.example`）を一括作成
+2. `python3 -m venv .venv` 実行時に `ensurepip is not available` で失敗
+3. `python3-venv` 未導入が原因と判明し、ユーザー側で `apt` 導入
+4. `.venv` 作成と `pip install -e .` / `pip install "langgraph-cli[inmem]"` を実施
+5. `langgraph dev` を短時間起動して、`sample` グラフの読み込みと `http://127.0.0.1:2024` 起動を確認
+6. 実行時生成物（`*.egg-info/`, `.langgraph_api/`）を `.gitignore` に追加して管理ノイズを除去
+
+この進め方により、環境依存エラーの切り分けと、最小構成の起動確認を短いサイクルで実施できました。
+
 ## 動作確認ポイント
 
 - `langgraph dev` 実行後、`http://127.0.0.1:2024` が応答する
@@ -62,6 +75,7 @@ Studio が自動起動しないケース向けに、接続URLも記載しまし�
 
 - `.env` はサンプル段階では必須ではないが、運用を見据えて先に置いておくと安全
 - 依存を増やしすぎると初期検証が重くなるため、最初は1ノードで通す方が切り分けしやすい
+- Ubuntu系環境では `python3-venv` が未導入だと venv が作れない
 
 ## 今後やること
 
