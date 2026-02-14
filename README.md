@@ -1,6 +1,6 @@
-# LangGraph Studio Local Environment
+# LangGraph Studio ローカル環境
 
-## 1. Python virtual environment
+## 1. Python 仮想環境
 
 ```bash
 python3 -m venv .venv
@@ -10,29 +10,29 @@ python -m pip install -e .
 python -m pip install "langgraph-cli[inmem]"
 ```
 
-## 2. Environment file
+## 2. 環境変数ファイル
 
 ```bash
 cp .env.example .env
 ```
 
-## 3. Start LangGraph dev server
+## 3. LangGraph 開発サーバーを起動
 
 ```bash
 langgraph dev
 ```
 
-Default local API endpoint is:
+デフォルトのローカル API エンドポイント:
 
 - `http://127.0.0.1:2024`
 
-If Studio does not open automatically, open:
+Studio が自動で開かない場合:
 
 - `https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024`
 
-## Included graph
+## 同梱グラフ
 
-- Graph id: `sample`
-- Entry node: `transform_text`
-- Input state key: `user_input`
-- Output state key: `result`
+- グラフ ID: `sample`
+- 開始ノード: `transform_text`
+- 入力ステートキー: `user_input`
+- 出力ステートキー: `result`
