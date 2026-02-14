@@ -140,3 +140,23 @@ PCスリープ復帰後、Studio画面が進まない状態が発生しました
 4. `http://127.0.0.1:2024/docs` と Studio `baseUrl` 接続を再確認
 
 結果として、ポート貼り直しで接続が復旧し、Studio 実行を再開できました。
+
+## ローカルLLM連携完了ログ
+
+`transform_text` ノードを固定文字列返却からローカルLLM呼び出しへ変更し、
+Ollama 経由で応答を返す構成に更新しました。
+
+実施内容:
+
+1. `agent.py` で `langchain_ollama.ChatOllama` を利用する実装に置換
+2. `pyproject.toml` に `langchain-ollama` 依存を追加
+3. `.env` / `.env.example` に `OLLAMA_BASE_URL`, `OLLAMA_MODEL` を定義
+4. `README.md` に Ollama 準備手順を追記
+
+確認結果:
+
+- Studio 上で `User Input: こんにちは` を実行
+- `result` に自然文の応答（固定文ではない生成結果）が返ることを確認
+- `Connected` 状態を維持したまま実行完了
+
+これにより、LangGraph Studio からローカルLLMまでの一連連携が完了しました。
